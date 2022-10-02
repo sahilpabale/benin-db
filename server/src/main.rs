@@ -1,5 +1,5 @@
 use tokio::{
-    io::{AsyncBufRead, AsyncBufReadExt, AsyncReadExt, AsyncWriteExt, BufReader},
+    io::{AsyncReadExt, BufReader},
     net::{TcpListener, TcpStream},
 };
 
@@ -9,15 +9,30 @@ async fn main() {
 
     loop {
         let (mut socket, _) = listener.accept().await.unwrap();
-        process(&mut socket).await;
+        tokio::spawn(async move {
+            process(&mut socket).await;
+        });
     }
 }
 
 async fn process(socket: &mut TcpStream) {
     let mut buf_reader = BufReader::new(socket);
 
-    let mut data = [0; 1024];
-    let req = buf_reader.read_exact(&mut data).await;
+    let mut data = vec![];
+    let _req = buf_reader.read_buf(&mut data).await;
 
-    println!("{:?}", data);
+    let data = String::from_utf8(data).unwrap();
+
+    match data.as_str() {
+        "wait" => {
+            use std::time::Duration;
+            use tokio::time;
+
+            time::sleep(Duration::from_secs(10)).await;
+            println!("wait over");
+        }
+        _ => {
+            println!("Unknown Command");
+        }
+    }
 }
