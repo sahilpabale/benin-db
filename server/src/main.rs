@@ -16,7 +16,7 @@ async fn main() {
 async fn process(socket: &mut TcpStream) {
     let mut buf_reader = BufReader::new(socket);
 
-    let mut data = [0; 32];
+    let mut data = [0; 1024];
     let req = buf_reader.read_exact(&mut data).await;
 
     println!("{:?}", data);
