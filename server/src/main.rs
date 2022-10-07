@@ -41,7 +41,10 @@ async fn process(socket: &mut TcpStream, comms_sender: Sender<Command>) {
     let mut buf_reader = BufReader::new(socket);
 
     let mut data = vec![];
-    let _req = buf_reader.read_buf(&mut data).await;
+    buf_reader
+        .read_buf(&mut data)
+        .await
+        .expect("Couldn't read request.");
 
     let data = String::from_utf8(data).unwrap();
 
@@ -60,25 +63,31 @@ async fn process(socket: &mut TcpStream, comms_sender: Sender<Command>) {
 
         "set" => {
             let mut args = args.iter();
-            let key = args.next().unwrap().to_string();
-            let initial_arg = args.next().unwrap().to_string();
+            let key = args.next().expect("No arguments provided").to_string();
+            let initial_arg = args
+                .next()
+                .expect("Value not provided to set command")
+                .to_string();
 
             let val = args.fold(initial_arg, |acc, cur| {
-                if acc.chars().nth(0) == Some('"') {
-                    if acc.chars().last() == Some('"') {
+                if let Some('"') = acc.chars().nth(0) {
+                    if let Some('"') = acc.chars().last() {
                         return acc;
                     }
-                    let mut acc_ = acc;
-                    acc_.push(' ');
-                    acc_.push_str(cur);
+                    let mut acc = acc;
+                    acc.push(' ');
+                    acc.push_str(cur);
 
-                    acc_
+                    acc
                 } else {
                     cur.to_string()
                 }
             });
 
-            comms_sender.send(Command::Set { key, val }).await.unwrap();
+            comms_sender
+                .send(Command::Set { key, val })
+                .await
+                .expect("Couldnt send command information");
             // println!("SET key: {:?} value: {}", key, val);
         }
 
