@@ -13,3 +13,5 @@ categories = ["caching", "database", "database-implementations"]
 
 [dependencies]
 tokio = { version = "1", features = ["full"] }
+serde_json = "1.0"
+serde = { version = "1.0", features= ["derive"]}
