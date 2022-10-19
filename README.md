@@ -1,3 +1,5 @@
+<img width="1920" alt="BeninDB Banner" src="https://user-images.githubusercontent.com/63385587/196757780-87278b93-600e-49fd-8788-7c1a849fd732.png">
+
 # Benin DB
 ### A Rust implementation of Redis Caching Database from scratch.
 
