@@ -2,6 +2,7 @@
 
 # Benin DB
 ### A Rust implementation of Redis Caching Database from scratch.
+Benin DB is a async key-value database inspired by Redis.
 
 ### How to use
 - #### Server -
@@ -14,5 +15,5 @@
   `cargo run --bin client <cmd>`
   Commands currently supported:
 
-  * `set <key> <value`
+  * `set <key> <value>`
   * ~~`get <key>`~~

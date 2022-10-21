@@ -2,6 +2,12 @@
 name = "client"
 version = "0.1.0"
 edition = "2021"
+description = "Client workspace of benin-db"
+documentation = "https://github.com/sahilpabale/benin-db/blob/dev/client/README.md"
+homepage = "https://github.com/sahilpabale/benin-db/blob/dev/client"
+repository = "https://github.com/sahilpabale/benin-db"
+keywords = ["redis", "caching db", "caching database", "database", "rust database", "rust"]
+categories = ["caching", "database", "database-implementations"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
